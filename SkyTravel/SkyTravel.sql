@@ -18,13 +18,19 @@ GO
 USE SkyTravel;
 GO
 
--- UA, RU, EN ...
+CREATE TABLE Users (
+    Id int primary key identity(1,1) not null,
+    Name nvarchar(100) not null check(len(Name) > 0),
+    LastName nvarchar(100) not null check(len(LastName) > 0),
+    Email nvarchar(255) not null check(len(Email) > 5),
+    Password nvarchar(255) not null check(len(Password) > 8)
+)
+
 CREATE TABLE Languages (
     Id int primary key identity(1,1) not null,
     Title nvarchar(100) not null unique check(len(Title) > 0),
 )
 
--- UAH, USD, EUR ...
 CREATE TABLE Currencies (
     Id int primary key identity(1,1) not null,
     Title nvarchar(50) not null unique check(len(Title) > 0),
@@ -166,7 +172,15 @@ GO
 
 CREATE TABLE Orders (
     Id int primary key identity(1,1) not null,
-    TicketId int foreign key references Tickets(Id),
     OrderStatusId int foreign key references OrderStatuses(Id),
+    QuantityTickets int not null check(QuantityTickets > 0),
+    TotalCost decimal(10, 2) not null,
     CreateAt datetime default GETDATE()
+)
+GO
+
+CREATE TABLE OrdersHistory (
+    Id int primary key identity(1,1) not null,
+    TicketId int not null foreign key references Tickets(Id),
+    OrderId int foreign key references Orders(Id)
 )
