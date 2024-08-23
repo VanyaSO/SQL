@@ -18,14 +18,6 @@ GO
 USE SkyTravel;
 GO
 
-CREATE TABLE Users (
-    Id int primary key identity(1,1) not null,
-    Name nvarchar(100) not null check(len(Name) > 0),
-    LastName nvarchar(100) not null check(len(LastName) > 0),
-    Email nvarchar(255) not null check(len(Email) > 5),
-    Password nvarchar(255) not null check(len(Password) > 8)
-)
-
 CREATE TABLE Languages (
     Id int primary key identity(1,1) not null,
     Title nvarchar(100) not null unique check(len(Title) > 0),
